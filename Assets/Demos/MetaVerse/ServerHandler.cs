@@ -12,10 +12,6 @@ public class ServerHandler : MonoBehaviour
     public Dictionary<string, IPEndPoint> Clients = new Dictionary<string, IPEndPoint>(); 
     
     void Awake() {
-        // Desactiver mon objet si je ne suis pas le serveur
-        Debug.Log("server handler : " + State.IsServer);
-
-        
         if (!State.IsServer) {
             gameObject.SetActive(false);
         }

@@ -11,9 +11,6 @@ public class ClientHandler : MonoBehaviour
     private IPEndPoint ServerEndpoint;
     
     void Awake() {
-        // Desactiver mon objet si je ne suis pas le client
-        Debug.Log("client handler : " + State.IsServer);
-        
         if (State.IsServer) {
             gameObject.SetActive(false);
         }

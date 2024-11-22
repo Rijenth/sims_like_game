@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fc926894-383c-4408-8c71-07a2c05d3933" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.course-mmporg-sample/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.course-mmporg-sample/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ConnectionFormHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ConnectionFormHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/CharacterController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/CharacterController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ClientHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ClientHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/MetaVerse.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/MetaVerse.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/rogue.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/rogue.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ServerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ServerHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
@@ -19,7 +23,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Demos/MetaVerse/Globals.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/rijenth/Workspace/gaming_project/course-mmporg-sample/Assets/Demos/MetaVerse/CharacterController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/rijenth/Workspace/gaming_project/course-mmporg-sample/Assets/Demos/MetaVerse/ClientHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/rijenth/Workspace/gaming_project/course-mmporg-sample/Assets/Demos/MetaVerse/ServerHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine/Runtime/Behaviours/CinemachineCamera.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
   <component name="ProjectColorInfo">{
@@ -108,7 +115,7 @@
       <workItem from="1732201569664" duration="182000" />
       <workItem from="1732201760729" duration="2470000" />
       <workItem from="1732206966135" duration="8286000" />
-      <workItem from="1732265656079" duration="2417000" />
+      <workItem from="1732265656079" duration="15545000" />
     </task>
     <servers />
   </component>

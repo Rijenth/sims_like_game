@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public enum CharacterPlayer {
-  Player1,
-  Player2
+  Player1
 }
 
 public class CharacterController : MonoBehaviour
@@ -23,14 +22,8 @@ public class CharacterController : MonoBehaviour
     {
         Anim = GetComponent<Animator>();
         inputs = new MetaverseInput();
-        switch (Player) {
-          case CharacterPlayer.Player1:
-            PlayerAction = inputs.Player1.Move;
-            break;
-          case CharacterPlayer.Player2:
-            PlayerAction = inputs.Player2.Move;
-            break;
-        }
+        
+        PlayerAction = inputs.Player1.Move;
 
         PlayerAction.Enable();
 

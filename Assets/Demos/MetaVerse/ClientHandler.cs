@@ -23,7 +23,7 @@ public class ClientHandler : MonoBehaviour
         UDP.InitClient();
 
         ServerEndpoint = new IPEndPoint(IPAddress.Parse(ServerIP), ServerPort);
-            
+        
         UDP.OnMessageReceived += (string message, IPEndPoint sender) => {
             Debug.Log("[CLIENT] Message received from " + 
                       sender.Address.ToString() + ":" + sender.Port 
@@ -35,7 +35,7 @@ public class ClientHandler : MonoBehaviour
     void Update()
     {
         if (Time.time > NextTimeout) {
-            UDP.SendUDPMessage("coucou", ServerEndpoint);
+            UDP.SendUDPMessage("connection", ServerEndpoint);
             NextTimeout = Time.time + 0.5f;
         }
     }

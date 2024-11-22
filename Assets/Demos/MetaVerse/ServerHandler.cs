@@ -9,7 +9,7 @@ public class ServerHandler : MonoBehaviour
     public UDPService UDP;
     public int ListenPort = 25000;
     
-    public Dictionary<string, IPEndPoint> Clients = new Dictionary<string, IPEndPoint>(); 
+    public static Dictionary<string, IPEndPoint> Clients = new Dictionary<string, IPEndPoint>(); 
     
     void Awake() {
         if (!State.IsServer) {
@@ -29,12 +29,14 @@ public class ServerHandler : MonoBehaviour
                           sender.Address.ToString() + ":" + sender.Port 
                           + " =>" + message);
                 
+                string addr = sender.Address.ToString() + ":" + sender.Port;
+                
                 switch (message) {
-                    case "coucou":
-                        string addr = sender.Address.ToString() + ":" + sender.Port;
+                    case "connection":
                         if (!Clients.ContainsKey(addr)) {
                             Clients.Add(addr, sender);
                         }
+                        
                         Debug.Log("There are " + Clients.Count + " clients present.");
 
                         UDP.SendUDPMessage("welcome!", sender);

@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc926894-383c-4408-8c71-07a2c05d3933" name="Changes" comment="" />
+    <list default="true" id="fc926894-383c-4408-8c71-07a2c05d3933" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.course-mmporg-sample/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.course-mmporg-sample/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Cartoon Town and Farm/Tools/Birds Swarm/Bird.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Cartoon Town and Farm/Tools/Birds Swarm/Bird.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ConnectionFormHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ConnectionFormHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/LoginScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/LoginScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/MetaVerse.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/MetaVerse.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +20,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Demos/MetaVerse/Globals.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
   <component name="ProjectColorInfo">{
@@ -27,7 +38,7 @@
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -99,6 +110,8 @@
       <updated>1732201567356</updated>
       <workItem from="1732201569664" duration="182000" />
       <workItem from="1732201760729" duration="2470000" />
+      <workItem from="1732206966135" duration="8286000" />
+      <workItem from="1732265656079" duration="53000" />
     </task>
     <servers />
   </component>

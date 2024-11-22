@@ -19,6 +19,12 @@ public class ConnectionFormHandler : MonoBehaviour
 
             return;
         }
+
+        
+        if (!State.IsServer)
+        {
+            State.IsServer = true;
+        }
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }

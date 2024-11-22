@@ -20,14 +20,15 @@ public class ConnectionFormHandler : MonoBehaviour
             return;
         }
         
-        if (State.IsServer) State.IsServer = false;
-        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void StartAsServer()
     {
-        if (!State.IsServer) State.IsServer = true;
+        if (!State.IsServer)
+        {
+            State.IsServer = true;
+        }
         
         setUsername("server_host");
 

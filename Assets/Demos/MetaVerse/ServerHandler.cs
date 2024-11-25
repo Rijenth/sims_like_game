@@ -8,6 +8,7 @@ public class ServerHandler : MonoBehaviour
 {
     public UDPService UDP;
     public int ListenPort = 25000;
+    private float NextTimeout = -1;
     
     public static Dictionary<string, IPEndPoint> Clients = new Dictionary<string, IPEndPoint>(); 
     
@@ -25,10 +26,6 @@ public class ServerHandler : MonoBehaviour
 
         UDP.OnMessageReceived +=  
             (string message, IPEndPoint sender) => {
-                Debug.Log("[SERVER] Message received from " + 
-                          sender.Address.ToString() + ":" + sender.Port 
-                          + " =>" + message);
-                
                 string addr = sender.Address.ToString() + ":" + sender.Port;
                 
                 switch (message) {
@@ -36,10 +33,7 @@ public class ServerHandler : MonoBehaviour
                         if (!Clients.ContainsKey(addr)) {
                             Clients.Add(addr, sender);
                         }
-                        
                         Debug.Log("There are " + Clients.Count + " clients present.");
-
-                        UDP.SendUDPMessage("welcome!", sender);
                         break;
                 }
                 
@@ -53,4 +47,11 @@ public class ServerHandler : MonoBehaviour
             UDP.SendUDPMessage(message, client.Value);
         }
     }
+    
+    public void BroadcastPlayerPosition(string message) {
+        foreach (KeyValuePair<string, IPEndPoint> client in Clients) {
+            UDP.SendUDPMessage(message, client.Value);
+        }
+    }
+
 }

@@ -5,6 +5,14 @@ using Demos.MetaVerse;
 using Unity.Cinemachine;
 using UnityEngine;
 
+[System.Serializable]
+public class PlayerData
+{
+    public string Identifier;
+    public Vector3 Position;
+    public string Username;
+}
+
 public class ServerSidePlayerManager : MonoBehaviour
 {
     // Créer des variables static centralisé
@@ -15,10 +23,11 @@ public class ServerSidePlayerManager : MonoBehaviour
     public ServerHandler ServerHandler;
     public GameObject MainAvatarPrefab;
     public GameObject AvatarPrefab;
+    
     private float NextTimeout = -1;
     private int countConnectedPlayer = 0;
 
-    public List<GameObject> PlayersGameObjects = new List<GameObject>();
+    public static List<GameObject> PlayersGameObjects = new List<GameObject>();
 
     private void Awake()
     {
@@ -27,77 +36,49 @@ public class ServerSidePlayerManager : MonoBehaviour
 
     void Start()
     {
-        if (State.IsServer)
-        {
-            if (PlayersGameObjects.Any()) return;
+        if (!State.IsServer) return;
+        if (PlayersGameObjects.Any()) return;
 
-            if (countConnectedPlayer != 0) return;
-            
-            AddPlayerAvatar($"Player_{serverIP}+{serverPort}", true);
-            countConnectedPlayer++;
-        }
-        
-        // Initialiser les avatars des joueurs connectés au démarrage
-        foreach (var client in ServerHandler.Clients)
-        {
-            AddPlayerAvatar(client.Key, false);
-        }
+        if (countConnectedPlayer != 0) return;
 
-        countConnectedPlayer += ServerHandler.Clients.Count;
+        AddPlayerAvatar($"{serverIP}:{serverPort}", State.Username, true);
+        countConnectedPlayer++;
     }
 
     void Update()
     {
         if (Time.time <= NextTimeout) return;
-
-        int currentPlayerCount = ServerHandler.Clients.Count;
-
-        if (countConnectedPlayer != currentPlayerCount)
-        {
-            countConnectedPlayer = currentPlayerCount;
-
-            foreach (var client in ServerHandler.Clients)
-            {
-                if (PlayersGameObjects.Exists(a => a.name == $"Player_{client.Key}")) continue;
-                
-                AddPlayerAvatar(client.Key, false);
-            }
-        }
+        
+        countConnectedPlayer = ServerHandler.Clients.Count;
         
         // objectif : 
         // Permettre l'instanciation des personnages chez les clients,
         // leur position actuel
-    
-        if (Time.time <= NextTimeout) return;
-        
-        
+
         /*
-        foreach (Player player in Players)
+        foreach (GameObject avatar in PlayersGameObjects)
         {
-            // identifiant du joueur | position x | position y | position z
-            float x = player.transform.position.x;
-            float y = player.transform.position.y;
-            float z = player.transform.position.z;
-            string characterPosition = $"Player_{x}+{y}+{z}";
+            //avatar.AddComponent<Player>();
+            Player player = avatar.GetComponent<Player>();
 
-            PlayerPosition playerPosition = new PlayerPosition
+            PlayerData playerData = new PlayerData
             {
-                //identifier = player
-                Position = transform.position
+                Identifier = player.Identifier,
+                Position = player.Position,
+                Username= player.Username
             };
-            
-            string json = JsonUtility.ToJson(playerPosition);
 
-            
-            ServerHandler.BroadcastUDPMessage(characterPosition);
+            string json = JsonUtility.ToJson(playerData);
+
+            ServerHandler.BroadcastUDPMessage(json);
         }
         */
-        
-        
+
+
         NextTimeout = Time.time + 0.5f;
     }
-    
-    void AddPlayerAvatar(string clientKey, bool isMainCharacter)
+
+    public GameObject AddPlayerAvatar(string clientKey, string playerUsername, bool isMainCharacter)
     {
         GameObject avatar = (isMainCharacter)
             ? Instantiate(MainAvatarPrefab)
@@ -110,17 +91,20 @@ public class ServerSidePlayerManager : MonoBehaviour
             cinemachineCamera.Follow = avatar.transform;
             cinemachineCamera.LookAt = avatar.transform;
         }
-        
+
         // Ajouter le controller lié aux UDP si on est pas l'active player
         // if (isActive) avatar.AddComponent<UDPCharacterController>()
 
         avatar.transform.position = new Vector3(250, 0, 250);
-        avatar.name = $"Player_{clientKey}";
+        avatar.name = clientKey;
 
         Player playerComponent = avatar.AddComponent<Player>();
         playerComponent.Identifier = clientKey;
         playerComponent.Avatar = avatar;
+        playerComponent.Username = playerUsername;
 
         PlayersGameObjects.Add(avatar);
+
+        return avatar;
     }
 }

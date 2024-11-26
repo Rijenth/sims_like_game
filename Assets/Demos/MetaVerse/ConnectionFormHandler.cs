@@ -3,16 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class ConnectionFormHandler : MonoBehaviour
 {
-    private string _username;
-
     public void setUsername(string username)
     {
-        _username = username;
+        State.Username = username;
     }
 
     public void StartGame() 
     {
-        if (string.IsNullOrEmpty(_username))
+        if (string.IsNullOrEmpty(State.Username))
         {
             // Afficher le message d'erreur au niveau du form login
             Debug.LogWarning("Username is empty. Please enter a valid username.");
@@ -30,7 +28,7 @@ public class ConnectionFormHandler : MonoBehaviour
             State.IsServer = true;
         }
         
-        setUsername("server_host");
+        setUsername("admin");
 
         StartGame();
     }

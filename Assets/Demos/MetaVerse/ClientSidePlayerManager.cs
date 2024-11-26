@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ClientSidePlayerManager : MonoBehaviour
 {
-    public List<GameObject> Players = new List<GameObject>();
+
     
     private void Awake()
     {

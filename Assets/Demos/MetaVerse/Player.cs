@@ -27,8 +27,6 @@ namespace Demos.MetaVerse
 
             SyncPosition();
             
-            //Debug.Log($"Bonjour, je suis le joueur {Identifier} en position : {Position}");
-            
             NextTimeout = Time.time + 0.5f;
         }
 

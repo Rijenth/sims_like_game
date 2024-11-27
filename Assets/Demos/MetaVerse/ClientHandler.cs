@@ -1,27 +1,29 @@
 using System.Collections.Generic;
 using System.Net;
+using Demos.MetaVerse;
+using Unity.Cinemachine;
 using UnityEngine;
+using Player = Demos.MetaVerse.Player;
 
 public class ClientHandler : MonoBehaviour
 {
     public UDPService UDP;
     public string ServerIP = "127.0.0.1";
     public int ServerPort = 25000;
-    
+
     private float NextTimeout = -1;
     private IPEndPoint ServerEndpoint;
 
+    public CinemachineCamera cinemachineCamera;
+    public GameObject MainAvatarPrefab;
+    public GameObject AvatarPrefab;
+
     // Pour afficher tout les joueurs
     public static List<GameObject> Players = new List<GameObject>();
-    
-    // Comment montrer aux autres que je bouge ?
 
     void Awake()
     {
-        if (State.IsServer)
-        {
-            gameObject.SetActive(false);
-        }
+        if (State.IsServer) gameObject.SetActive(false);
     }
 
     void Start()
@@ -31,36 +33,32 @@ public class ClientHandler : MonoBehaviour
         UDP.InitClient();
 
         ServerEndpoint = new IPEndPoint(IPAddress.Parse(ServerIP), ServerPort);
-        
+
         UDP.OnMessageReceived += (string message, IPEndPoint sender) =>
         {
-            // Décoder les données reçues
-            /*
+            Debug.Log("Message reçu");
             var decodedData = JsonUtility.FromJson<PlayerData>(message);
-            var playerIdentifier = decodedData.Identifier;
-            var playerPosition = decodedData.Position;
-            var playerUsername = decodedData.Username;
+            var username = decodedData.Username;
+            var position = decodedData.Position;
 
-            Debug.Log("[Client] Bienvenue " + playerUsername);
-            */
+            Debug.Log("Username : " + username);
 
-            /*
-            // Vérifier si le joueur existe déjà dans la liste
-            var existingPlayer = Players.Find(player => player.name == playerName);
+            var existingPlayer = Players.Find(player => player.GetComponent<Player>().Username == username);
 
-            if (existingPlayer != null)
+            if (!existingPlayer)
             {
-                // Si le joueur existe, mettre à jour sa position
-                existingPlayer.transform.position = playerPosition;
-                Debug.Log($"[Client] Updated position for player: {playerName}");
+                bool isMainCharacter = username == State.Username;
+                Debug.Log("on a pas trouvé de joueur donc on en crée un qui sera main charac ? " + isMainCharacter);
+
+                var newPlayer = AddPlayerAvatar(decodedData, isMainCharacter);
+                Players.Add(newPlayer);
+                Debug.Log($"[Client] Added new player: {username}");
             }
-            else
+            else if (username != State.Username)
             {
-                // Si le joueur n'existe pas, l'ajouter
-                AddPlayerAvatar(playerName, playerPosition, false); // Par défaut, pas le personnage principal
-                Debug.Log($"[Client] Added new player: {playerName}");
+                Debug.Log("cest un autre joueur, donc on le bouge");
+                existingPlayer.transform.position = position;
             }
-            */
         };
     }
 
@@ -69,17 +67,62 @@ public class ClientHandler : MonoBehaviour
     {
         if (Time.time <= NextTimeout) return;
 
+        var avatar = Players.Find(player => player.GetComponent<Player>().Username == State.Username);
+
+        var username = State.Username;
+        var position = new Vector3(250, 0, 250);
+
+        if (avatar)
+        {
+            var player = avatar.GetComponent<Player>();
+
+            if (player)
+            {
+                username = player.Username;
+                position = player.Position;
+            }  
+        }
+        
         PlayerData playerData = new PlayerData
         {
-            Username = State.Username,
-            // position ?
-            // identifier ?
+            Username = username,
+            Position = position,
         };
-        
+
         string json = JsonUtility.ToJson(playerData);
-        
-        // Si on ne reçoit plus ce message, on supprime le joueur de la liste coté serveur
+
         UDP.SendUDPMessage(json, ServerEndpoint);
         NextTimeout = Time.time + 0.5f;
+    }
+
+
+    public GameObject AddPlayerAvatar(PlayerData data, bool isMainCharacter)
+    {
+        GameObject avatar = (isMainCharacter)
+            ? Instantiate(MainAvatarPrefab)
+            : Instantiate(AvatarPrefab);
+        
+        if (isMainCharacter)
+        {
+            avatar.AddComponent<CharacterController>();
+
+            cinemachineCamera.Follow = avatar.transform;
+            cinemachineCamera.LookAt = avatar.transform;
+        }
+
+        // Ajouter le controller lié aux UDP si on est pas l'active player
+        // if (isActive) avatar.AddComponent<UDPCharacterController>()
+
+        avatar.transform.position = new Vector3(250, 0, 250);
+        avatar.name = data.Username;
+
+        Player playerComponent = avatar.AddComponent<Player>();
+        playerComponent.Identifier = data.Identifier;
+        playerComponent.Avatar = avatar;
+        playerComponent.Username = data.Username;
+
+        Players.Add(avatar);
+
+        return avatar;
     }
 }

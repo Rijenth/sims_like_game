@@ -5,22 +5,10 @@ using Unity.Cinemachine;
 using UnityEngine;
 using Player = Demos.MetaVerse.Player;
 
-public class ClientHandler : MonoBehaviour
+public class ClientHandler : PlayerHandler
 {
-    public UDPService UDP;
-    public string ServerIP = "127.0.0.1";
-    public int ServerPort = 25000;
-
-    private float NextTimeout = -1;
     private IPEndPoint ServerEndpoint;
-
-    public CinemachineCamera cinemachineCamera;
-    public GameObject MainAvatarPrefab;
-    public GameObject AvatarPrefab;
-
-    // Pour afficher tout les joueurs
-    public static List<GameObject> Players = new List<GameObject>();
-
+    
     void Awake()
     {
         if (State.IsServer) gameObject.SetActive(false);
@@ -32,31 +20,25 @@ public class ClientHandler : MonoBehaviour
 
         UDP.InitClient();
 
-        ServerEndpoint = new IPEndPoint(IPAddress.Parse(ServerIP), ServerPort);
+        ServerEndpoint = new IPEndPoint(IPAddress.Parse(State.ServerIP), State.ServerPORT);
 
         UDP.OnMessageReceived += (string message, IPEndPoint sender) =>
         {
-            Debug.Log("Message reçu");
             var decodedData = JsonUtility.FromJson<PlayerData>(message);
             var username = decodedData.Username;
             var position = decodedData.Position;
-
-            Debug.Log("Username : " + username);
-
+            
             var existingPlayer = Players.Find(player => player.GetComponent<Player>().Username == username);
 
             if (!existingPlayer)
             {
                 bool isMainCharacter = username == State.Username;
-                Debug.Log("on a pas trouvé de joueur donc on en crée un qui sera main charac ? " + isMainCharacter);
 
                 var newPlayer = AddPlayerAvatar(decodedData, isMainCharacter);
                 Players.Add(newPlayer);
-                Debug.Log($"[Client] Added new player: {username}");
             }
             else if (username != State.Username)
             {
-                Debug.Log("cest un autre joueur, donc on le bouge");
                 existingPlayer.transform.position = position;
             }
         };
@@ -93,36 +75,5 @@ public class ClientHandler : MonoBehaviour
 
         UDP.SendUDPMessage(json, ServerEndpoint);
         NextTimeout = Time.time + 0.5f;
-    }
-
-
-    public GameObject AddPlayerAvatar(PlayerData data, bool isMainCharacter)
-    {
-        GameObject avatar = (isMainCharacter)
-            ? Instantiate(MainAvatarPrefab)
-            : Instantiate(AvatarPrefab);
-        
-        if (isMainCharacter)
-        {
-            avatar.AddComponent<CharacterController>();
-
-            cinemachineCamera.Follow = avatar.transform;
-            cinemachineCamera.LookAt = avatar.transform;
-        }
-
-        // Ajouter le controller lié aux UDP si on est pas l'active player
-        // if (isActive) avatar.AddComponent<UDPCharacterController>()
-
-        avatar.transform.position = new Vector3(250, 0, 250);
-        avatar.name = data.Username;
-
-        Player playerComponent = avatar.AddComponent<Player>();
-        playerComponent.Identifier = data.Identifier;
-        playerComponent.Avatar = avatar;
-        playerComponent.Username = data.Username;
-
-        Players.Add(avatar);
-
-        return avatar;
     }
 }

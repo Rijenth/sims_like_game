@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Demos.MetaVerse;
+using TMPro;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -14,29 +16,42 @@ public class PlayerData
 public class PlayerHandler : MonoBehaviour
 {
     public UDPService UDP;
-    
+
     public CinemachineCamera cinemachineCamera;
     public GameObject MainAvatarPrefab;
     public GameObject AvatarPrefab;
-    
-    
+
+
     public float NextTimeout = -1;
     public static List<GameObject> Players = new List<GameObject>();
-    
+
     public GameObject AddPlayerAvatar(PlayerData data, bool isMainCharacter)
     {
-        GameObject avatar = (isMainCharacter)
+        GameObject avatar = InstantiateAvatar(isMainCharacter);
+        ConfigureAvatar(avatar, data);
+        ConfigureUsernameContainer(avatar, data);
+
+        Players.Add(avatar);
+        return avatar;
+    }
+
+    private GameObject InstantiateAvatar(bool isMainCharacter)
+    {
+        GameObject avatar = isMainCharacter
             ? Instantiate(MainAvatarPrefab)
             : Instantiate(AvatarPrefab);
-        
-        if (isMainCharacter)
-        {
-            avatar.AddComponent<CharacterController>();
 
-            cinemachineCamera.Follow = avatar.transform;
-            cinemachineCamera.LookAt = avatar.transform;
-        }
+        if (!isMainCharacter) return avatar;
 
+        avatar.AddComponent<CharacterController>();
+        cinemachineCamera.Follow = avatar.transform;
+        cinemachineCamera.LookAt = avatar.transform;
+
+        return avatar;
+    }
+
+    private void ConfigureAvatar(GameObject avatar, PlayerData data)
+    {
         avatar.transform.position = new Vector3(250, 0, 250);
         avatar.name = data.Username;
 
@@ -44,9 +59,47 @@ public class PlayerHandler : MonoBehaviour
         playerComponent.Identifier = data.Identifier;
         playerComponent.Avatar = avatar;
         playerComponent.Username = data.Username;
+    }
 
-        Players.Add(avatar);
+    private void ConfigureUsernameContainer(GameObject avatar, PlayerData data)
+    {
+        GameObject container = ConfigureAvatarTextContainer(
+            avatar,
+            data.Username,
+            new Vector3(0, 3, 0)
+        );
+        
+        container.AddComponent<FaceCamera>();
+    }
 
-        return avatar;
+    private void ConfigureScoreContainer(GameObject avatar, PlayerData data)
+    {
+        GameObject container = ConfigureAvatarTextContainer(
+            avatar,
+            data.Username,
+            new Vector3(0, 3, 0)
+        );
+        
+        container.AddComponent<FaceCamera>();
+    }
+
+    private GameObject ConfigureAvatarTextContainer(GameObject avatar, string text, Vector3 position)
+    {
+        GameObject container = new GameObject(text);
+        container.transform.SetParent(avatar.transform);
+        container.transform.localPosition = position;
+
+        GameObject textObject = new GameObject(text + "Text");
+        textObject.transform.SetParent(container.transform);
+        textObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        TMP_Text textMesh = textObject.AddComponent<TextMeshPro>();
+        textMesh.text = text;
+        textMesh.fontSize = 36;
+        textMesh.color = Color.white;
+        textMesh.alignment = TextAlignmentOptions.Center;
+        textMesh.transform.localPosition = Vector3.zero;
+
+        return container;
     }
 }

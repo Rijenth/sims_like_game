@@ -47,8 +47,6 @@ public class ClientHandler : PlayerHandler
     // Update is called once per frame
     void Update()
     {
-        if (Time.time <= NextTimeout) return;
-
         var avatar = Players.Find(player => player.GetComponent<Player>().Username == State.Username);
 
         var username = State.Username;
@@ -74,6 +72,5 @@ public class ClientHandler : PlayerHandler
         string json = JsonUtility.ToJson(playerData);
 
         UDP.SendUDPMessage(json, ServerEndpoint);
-        NextTimeout = Time.time + 0.5f;
     }
 }

@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc926894-383c-4408-8c71-07a2c05d3933" name="Changes" comment="feat: can see moving character client and server side">
+    <list default="true" id="fc926894-383c-4408-8c71-07a2c05d3933" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.course-mmporg-sample/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.course-mmporg-sample/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ClientHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ClientHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ClientSidePlayerManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ClientSidePlayerManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/MetaVerse.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/MetaVerse.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ServerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ServerHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ServerSidePlayerManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ServerSidePlayerManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/State.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/PlayerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/PlayerHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/engineer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/engineer.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/rogue.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/rogue.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,10 +21,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Users/rijenth/Workspace/gaming_project/course-mmporg-sample/Assets/Demos/MetaVerse/ClientHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/rijenth/Workspace/gaming_project/course-mmporg-sample/Assets/Demos/MetaVerse/ClientHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/rijenth/Workspace/gaming_project/course-mmporg-sample/Assets/Demos/MetaVerse/ClientHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine/Runtime/Behaviours/CinemachineCamera.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine/Runtime/Core/UnityVectorExtensions.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
   <component name="ProjectColorInfo">{
@@ -45,7 +38,7 @@
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;implement-client-side-character-rendering&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;improve-multiplayer-character-movement&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -121,7 +114,8 @@
       <workItem from="1732265656079" duration="15777000" />
       <workItem from="1732552185763" duration="8818000" />
       <workItem from="1732642500939" duration="5553000" />
-      <workItem from="1732723954607" duration="8693000" />
+      <workItem from="1732723954607" duration="9530000" />
+      <workItem from="1732815171794" duration="5488000" />
     </task>
     <task id="LOCAL-00001" summary="feat: add Player class to handle avatar position">
       <option name="closed" value="true" />
@@ -147,7 +141,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732731500608</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="refactor: create main class to improve readability">
+      <option name="closed" value="true" />
+      <created>1732732738279</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732732738279</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +168,8 @@
     <MESSAGE value="feat: add Player class to handle avatar position" />
     <MESSAGE value="wip: working client side player rendering" />
     <MESSAGE value="feat: can see moving character client and server side" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: can see moving character client and server side" />
+    <MESSAGE value="refactor: create main class to improve readability" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: create main class to improve readability" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

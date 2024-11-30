@@ -10,6 +10,9 @@ public class UDPCharacterController : MonoBehaviour
     public Vector3 TargetPosition = Vector3.zero;
     private bool isMoving = false;
 
+    public float StoppingDistance = 0.1f;
+    public float DecelerationFactor = 0.5f;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -30,16 +33,31 @@ public class UDPCharacterController : MonoBehaviour
 
     public void SetMovement(Vector3 newTargetPosition)
     {
+        /*
+            On ignore si on reçoit un ordre de mouvement mais que seul l'axe y à changer.
+            risque d'erreur avec la rotation des persos car tout les persos
+            spawn en (250, 0, 250) au démarrage.
+         */
+        if (Mathf.Abs(newTargetPosition.x - TargetPosition.x) < 0.01f &&
+            Mathf.Abs(newTargetPosition.z - TargetPosition.z) < 0.01f)
+        {
+            return;
+        }
+
         TargetPosition = newTargetPosition;
         isMoving = true;
     }
 
     private void MoveTowardsTarget()
     {
-        Vector3 direction = (TargetPosition - transform.position).normalized;
+        // Ignore la composante Y lors du calcul
+        Vector3 currentPosition = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 targetPositionFlat = new Vector3(TargetPosition.x, 0, TargetPosition.z);
 
-        float distanceToTarget = Vector3.Distance(transform.position, TargetPosition);
-        if (distanceToTarget < 0.1f)
+        Vector3 direction = (targetPositionFlat - currentPosition).normalized;
+        float distanceToTarget = Vector3.Distance(currentPosition, targetPositionFlat);
+
+        if (distanceToTarget < StoppingDistance)
         {
             isMoving = false;
 
@@ -48,14 +66,18 @@ public class UDPCharacterController : MonoBehaviour
             return;
         }
 
+        float speedMultiplier = distanceToTarget < 1f
+            ? Mathf.Lerp(DecelerationFactor, 1f, distanceToTarget)
+            : 1f;
+
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, targetRotation, RotateSpeed * Time.fixedDeltaTime));
 
-        Vector3 movement = direction * WalkSpeed * Time.fixedDeltaTime;
+        Vector3 movement = direction * WalkSpeed * speedMultiplier * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + movement);
 
         if (!anim) return;
 
-        anim.SetFloat("Walk", 1);
+        anim.SetFloat("Walk", speedMultiplier);
     }
 }

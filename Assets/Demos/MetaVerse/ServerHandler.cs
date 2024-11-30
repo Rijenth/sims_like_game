@@ -44,42 +44,17 @@ public class ServerHandler : PlayerHandler
                 BroadcastUDPMessage(message);
 
                 var decodedData = JsonUtility.FromJson<PlayerData>(message);
-                var username = decodedData.Username;
-                var position = decodedData.Position;
 
-                var existingPlayer = Players.Find(player => player.GetComponent<Player>().Username == username);
-
-                if (!existingPlayer)
-                {
-                    var newPlayer = AddPlayerAvatar(decodedData, false);
-                    Players.Add(newPlayer);
-                }
-                else if (username != State.Username)
-                {
-                    existingPlayer.transform.position = position;
-                }
+                SyncPlayerPosition(decodedData);
             };
     }
 
     void Update()
     {
         if (Time.time <= NextTimeout) return;
-
-        var avatar = Players.Find(player => player.GetComponent<Player>().Username == State.Username);
         
-        if (!avatar) return;
+        var json = GeneratePlayerUDPData();
         
-        var player = avatar.GetComponent<Player>();
-
-        PlayerData playerData = new PlayerData
-        {
-            Username = player.Username,
-            Position = player.Position,
-            Identifier = player.Identifier
-        };
-
-        string json = JsonUtility.ToJson(playerData);
-
         BroadcastUDPMessage(json);
 
         NextTimeout = Time.time + 0.5f;

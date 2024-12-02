@@ -7,7 +7,16 @@ public class CheckServerStatus : MonoBehaviour
     public UDPService UDP;
     public float NextTimeout = -1;
     public IPEndPoint serverEP;
-    
+
+    public GameObject UsernameInput;
+    public GameObject ConnexionButton;
+
+    private void Awake()
+    {
+        UsernameInput.SetActive(false);
+        ConnexionButton.SetActive(false);
+    }
+
     void Start()
     {
         serverEP = new IPEndPoint(IPAddress.Parse(State.ServerIP), State.ServerPORT);
@@ -18,6 +27,8 @@ public class CheckServerStatus : MonoBehaviour
             if (message == "PONG")
             {
                 State.ServerIsOnline = true;
+                UsernameInput.SetActive(true);
+                ConnexionButton.SetActive(true);
             }
         };
     }

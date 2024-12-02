@@ -1520,6 +1520,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UDP: {fileID: 692552632}
   NextTimeout: -1
+  UsernameInput: {fileID: 1216951687}
+  ConnexionButton: {fileID: 739186472}
 --- !u!1 &1612271238
 GameObject:
   m_ObjectHideFlags: 0

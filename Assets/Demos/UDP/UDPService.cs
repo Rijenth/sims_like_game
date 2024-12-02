@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 public class UDPService : MonoBehaviour
 {
@@ -10,6 +11,53 @@ public class UDPService : MonoBehaviour
     public delegate void UDPMessageReceive(string message, IPEndPoint sender);
 
     public event UDPMessageReceive OnMessageReceived;
+    
+    public async Task<bool> PingServer(int timeoutMilliseconds = 1000)
+    {
+        if (udp == null)
+        {
+            Debug.LogWarning("UDP client not initialized. Call InitClient() first.");
+            return false;
+        }
+
+        IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(State.ServerIP), State.ServerPORT);
+        
+        SendUDPMessage("PING", serverEP);
+
+        bool serverIsOnline = false;
+
+        Task receiveTask = Task.Run(() =>
+        {
+            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
+
+            try
+            {
+                // Boucle pour écouter la réponse
+                while (true)
+                {
+                    if (udp.Available > 0)
+                    {
+                        byte[] receivedBytes = udp.Receive(ref remoteEP);
+                        string receivedMessage = System.Text.Encoding.UTF8.GetString(receivedBytes);
+
+                        if (receivedMessage == "PONG" && remoteEP.Equals(serverEP))
+                        {
+                            serverIsOnline = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                Debug.Log("Pas de client disponible");
+            }
+        });
+
+        await Task.WhenAny(receiveTask, Task.Delay(timeoutMilliseconds));
+
+        return serverIsOnline;
+    }
 
     public bool Listen(int port) {
         if (udp != null) {
@@ -81,7 +129,16 @@ public class UDPService : MonoBehaviour
 
 			try
 			{
-				ParseString(data, sourceEP);
+                string receivedMessage = System.Text.Encoding.UTF8.GetString(data);
+
+                if (receivedMessage == "PING")
+                {
+                    SendUDPMessage("PONG", sourceEP);
+
+                    return;
+                }
+                
+                ParseString(data, sourceEP);
 			}
 			catch (System.Exception ex)
 			{
@@ -114,6 +171,4 @@ public class UDPService : MonoBehaviour
             Debug.LogWarning(e.Message);
         }
     }
-
-
 }

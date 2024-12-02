@@ -26,6 +26,7 @@ public class ConnectionFormHandler : MonoBehaviour
         if (!State.IsServer)
         {
             State.IsServer = true;
+            State.ServerIsOnline = true;
         }
         
         setUsername("admin");

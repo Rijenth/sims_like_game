@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class State
 {
+    public static bool ServerIsOnline = false;
     public static bool IsServer = false;
     public static string Username = "";
     

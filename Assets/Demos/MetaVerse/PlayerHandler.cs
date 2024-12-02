@@ -57,6 +57,12 @@ public class PlayerHandler : MonoBehaviour
     private void ConfigureAvatar(GameObject avatar, PlayerData data)
     {
         avatar.transform.position = new Vector3(250, 0, 250);
+        
+        if (data.Position != Vector3.zero)
+        {
+            avatar.transform.position = data.Position;
+        }
+        
         avatar.name = data.Username;
 
         Player playerComponent = avatar.AddComponent<Player>();
@@ -66,17 +72,6 @@ public class PlayerHandler : MonoBehaviour
     }
 
     private void ConfigureUsernameContainer(GameObject avatar, PlayerData data)
-    {
-        GameObject container = ConfigureAvatarTextContainer(
-            avatar,
-            data.Username,
-            new Vector3(0, 3, 0)
-        );
-
-        container.AddComponent<FaceCamera>();
-    }
-
-    private void ConfigureScoreContainer(GameObject avatar, PlayerData data)
     {
         GameObject container = ConfigureAvatarTextContainer(
             avatar,

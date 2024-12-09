@@ -12,6 +12,7 @@ public class ServerHandler : PlayerHandler
 
     void Awake()
     {
+        // envoyer message de deconnection au autres joueurs
         if (!State.IsServer) gameObject.SetActive(false);
     }
 
@@ -67,4 +68,6 @@ public class ServerHandler : PlayerHandler
             UDP.SendUDPMessage(message, client.Value);
         }
     }
+    
+    
 }

@@ -82,6 +82,8 @@ public class PlayerHandler : MonoBehaviour
         container.AddComponent<FaceCamera>();
     }
 
+    // potentiel mauvaise pratique
+    // on peux setup un objet directement sur l'avatar et update son etat
     private GameObject ConfigureAvatarTextContainer(GameObject avatar, string text, Vector3 position)
     {
         GameObject container = new GameObject(text);
@@ -118,6 +120,7 @@ public class PlayerHandler : MonoBehaviour
         else if (username != State.Username)
         {
             existingPlayer.GetComponent<UDPCharacterController>().SetMovement(position);
+            // gérer la rotation;
         }
     }
 

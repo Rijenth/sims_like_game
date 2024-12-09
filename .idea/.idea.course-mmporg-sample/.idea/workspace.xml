@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="fc926894-383c-4408-8c71-07a2c05d3933" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.course-mmporg-sample/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.course-mmporg-sample/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ClientHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ClientHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/PlayerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/PlayerHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/engineer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/engineer.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/rogue.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/Prefabs/rogue.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ServerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Demos/MetaVerse/ServerHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/course-mmporg-sample.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/course-mmporg-sample.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +20,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/87c38cf875804a0cbcc2bd5e75635dd41dda00/3d/a3346362/MonoBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine/Runtime/Behaviours/CinemachineCamera.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine/Runtime/Core/UnityVectorExtensions.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -38,7 +38,7 @@
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;improve-multiplayer-character-movement&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -50,7 +50,7 @@
 }</component>
   <component name="RunManager" selected="Standalone Player.Standalone Player">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/Build/launcher.app/Contents/MacOS/MMPORG Sample" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Build/app.app/Contents/MacOS/MMPORG Sample" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Build/app.app/Contents/MacOS" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -116,6 +116,8 @@
       <workItem from="1732642500939" duration="5553000" />
       <workItem from="1732723954607" duration="9530000" />
       <workItem from="1732815171794" duration="5488000" />
+      <workItem from="1733158495931" duration="2853000" />
+      <workItem from="1733740105163" duration="1891000" />
     </task>
     <task id="LOCAL-00001" summary="feat: add Player class to handle avatar position">
       <option name="closed" value="true" />
@@ -149,7 +151,39 @@
       <option name="project" value="LOCAL" />
       <updated>1732732738279</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: display server status">
+      <option name="closed" value="true" />
+      <created>1733159200808</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733159200808</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: add check server status">
+      <option name="closed" value="true" />
+      <created>1733159213341</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733159213341</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: display connexion form when server is online">
+      <option name="closed" value="true" />
+      <created>1733159418083</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733159418083</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: synchronize player position on game start">
+      <option name="closed" value="true" />
+      <created>1733161275018</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733161275018</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,7 +203,11 @@
     <MESSAGE value="wip: working client side player rendering" />
     <MESSAGE value="feat: can see moving character client and server side" />
     <MESSAGE value="refactor: create main class to improve readability" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: create main class to improve readability" />
+    <MESSAGE value="feat: display server status" />
+    <MESSAGE value="feat: add check server status" />
+    <MESSAGE value="feat: display connexion form when server is online" />
+    <MESSAGE value="feat: synchronize player position on game start" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: synchronize player position on game start" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

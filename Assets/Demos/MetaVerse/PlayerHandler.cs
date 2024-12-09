@@ -10,6 +10,7 @@ public class PlayerData
 {
     public string Identifier;
     public Vector3 Position;
+    public Quaternion Rotation;
     public string Username;
 }
 
@@ -57,12 +58,12 @@ public class PlayerHandler : MonoBehaviour
     private void ConfigureAvatar(GameObject avatar, PlayerData data)
     {
         avatar.transform.position = new Vector3(250, 0, 250);
-        
+
         if (data.Position != Vector3.zero)
         {
             avatar.transform.position = data.Position;
         }
-        
+
         avatar.name = data.Username;
 
         Player playerComponent = avatar.AddComponent<Player>();
@@ -108,6 +109,7 @@ public class PlayerHandler : MonoBehaviour
     {
         var username = data.Username;
         var position = data.Position;
+        var rotation = data.Rotation;
         var existingPlayer = Players.Find(player => player.GetComponent<Player>().Username == username);
 
         if (!existingPlayer)
@@ -119,8 +121,16 @@ public class PlayerHandler : MonoBehaviour
         }
         else if (username != State.Username)
         {
-            existingPlayer.GetComponent<UDPCharacterController>().SetMovement(position);
-            // gérer la rotation;
+
+            if (rotation != existingPlayer.transform.rotation)
+            {
+                existingPlayer.GetComponent<UDPCharacterController>().SetRotation(rotation);
+            }
+
+            if (position != existingPlayer.transform.position)
+            {
+                existingPlayer.GetComponent<UDPCharacterController>().SetMovement(position);
+            }           
         }
     }
 
@@ -130,6 +140,7 @@ public class PlayerHandler : MonoBehaviour
 
         var username = State.Username;
         var position = new Vector3(250, 0, 250);
+        var rotation = new Quaternion();
 
         if (avatar)
         {
@@ -139,6 +150,7 @@ public class PlayerHandler : MonoBehaviour
             {
                 username = player.Username;
                 position = avatar.transform.position;
+                rotation = avatar.transform.rotation;
             }
         }
 
@@ -146,6 +158,7 @@ public class PlayerHandler : MonoBehaviour
         {
             Username = username,
             Position = position,
+            Rotation = rotation,
         };
 
         return JsonUtility.ToJson(playerData);

@@ -7,6 +7,8 @@ public class ServerHandler : PlayerHandler
     private IPEndPoint ServerEndpoint;
     
     private Dictionary<string, IPEndPoint> Clients = new Dictionary<string, IPEndPoint>();
+    private List<TrapData> ActiveTraps = new List<TrapData>();
+
 
     void Awake()
     {

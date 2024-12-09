@@ -122,6 +122,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5828630090233647465, guid: 8d26c05ddd1f44a4580ac70c6e6694cb, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6069289017370590467, guid: 8d26c05ddd1f44a4580ac70c6e6694cb, type: 3}
       propertyPath: m_Controller
       value: 
@@ -168,6 +172,7 @@ MonoBehaviour:
   Player: 1
   WalkSpeed: 3
   RotateSpeed: 250
+  immobilizationDuration: 2
 --- !u!54 &5432142093211381233
 Rigidbody:
   m_ObjectHideFlags: 0

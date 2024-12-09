@@ -4,7 +4,6 @@ using UnityEngine;
 public class ClientHandler : PlayerHandler
 {
     private IPEndPoint ServerEndpoint;
-
     void Awake()
     {
         if (State.IsServer) gameObject.SetActive(false);

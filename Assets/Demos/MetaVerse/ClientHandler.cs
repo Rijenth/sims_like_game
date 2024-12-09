@@ -8,7 +8,6 @@ using Player = Demos.MetaVerse.Player;
 public class ClientHandler : PlayerHandler
 {
     private IPEndPoint ServerEndpoint;
-
     void Awake()
     {
         if (State.IsServer) gameObject.SetActive(false);

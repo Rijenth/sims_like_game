@@ -122,6 +122,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2163606084426294751, guid: bba52cb8327573a4299109283d05b63e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6814611978912657389, guid: bba52cb8327573a4299109283d05b63e, type: 3}
       propertyPath: m_Controller
       value: 
@@ -142,6 +146,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2163606084426294751, guid: bba52cb8327573a4299109283d05b63e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2759715294894287133}
+    - targetCorrespondingSourceObject: {fileID: 2163606084426294751, guid: bba52cb8327573a4299109283d05b63e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6643863427067131079}
   m_SourcePrefab: {fileID: 100100000, guid: bba52cb8327573a4299109283d05b63e, type: 3}
 --- !u!1 &4679524302450112083 stripped
 GameObject:
@@ -163,6 +170,8 @@ MonoBehaviour:
   Player: 0
   WalkSpeed: 3
   RotateSpeed: 250
+  isImmobilized: 0
+  immobilizationDuration: 2
 --- !u!54 &8781497682776968274
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -213,6 +222,20 @@ CapsuleCollider:
   m_Height: 2.2
   m_Direction: 1
   m_Center: {x: 0, y: 1.1, z: 0}
+--- !u!114 &-6643863427067131079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4679524302450112083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045d5523eee614d44bee23c87f400e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trapPrefab: {fileID: 8861684806784791155, guid: 22b9ec46f0a58f443be35f0c1072d108, type: 3}
+  distanceBehind: 2
 --- !u!4 &5881386038313578635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1110506447530992391, guid: bba52cb8327573a4299109283d05b63e, type: 3}

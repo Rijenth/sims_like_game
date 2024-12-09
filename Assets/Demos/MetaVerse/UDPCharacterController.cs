@@ -13,6 +13,7 @@ public class UDPCharacterController : MonoBehaviour
     public float StoppingDistance = 0.1f;
     public float DecelerationFactor = 0.5f;
 
+    private CharacterController playerController;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -32,21 +33,22 @@ public class UDPCharacterController : MonoBehaviour
     }
 
     public void SetMovement(Vector3 newTargetPosition)
+{
+    if (playerController != null && playerController.isImmobilized)
     {
-        /*
-            On ignore si on reçoit un ordre de mouvement mais que seul l'axe y à changer.
-            risque d'erreur avec la rotation des persos car tout les persos
-            spawn en (250, 0, 250) au démarrage.
-         */
-        if (Mathf.Abs(newTargetPosition.x - TargetPosition.x) < 0.01f &&
-            Mathf.Abs(newTargetPosition.z - TargetPosition.z) < 0.01f)
-        {
-            return;
-        }
-
-        TargetPosition = newTargetPosition;
-        isMoving = true;
+        isMoving = false;
+        return;
     }
+
+    if (Mathf.Abs(newTargetPosition.x - TargetPosition.x) < 0.01f &&
+        Mathf.Abs(newTargetPosition.z - TargetPosition.z) < 0.01f)
+    {
+        return;
+    }
+
+    TargetPosition = newTargetPosition;
+    isMoving = true;
+}
 
     private void MoveTowardsTarget()
     {

@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class ServerHandler : PlayerHandler
 {
     private Dictionary<string, IPEndPoint> Clients = new Dictionary<string, IPEndPoint>();
+    private List<TrapData> ActiveTraps = new List<TrapData>();
+
 
     void Awake()
     {
@@ -68,6 +70,4 @@ public class ServerHandler : PlayerHandler
             UDP.SendUDPMessage(message, client.Value);
         }
     }
-    
-    
 }

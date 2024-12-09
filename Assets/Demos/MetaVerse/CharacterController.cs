@@ -15,9 +15,10 @@ public class CharacterController : MonoBehaviour
     InputAction PlayerAction;
     Rigidbody rb;
 
+    public bool isImmobilized = false;
+    private float immobilizationTimer = 0f;
+    public float immobilizationDuration = 2f;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Anim = GetComponent<Animator>();
@@ -30,9 +31,24 @@ public class CharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
+      Debug.Log("isImmobilized in FixedUpdate: " + isImmobilized);
+
+        if (isImmobilized == true)
+        {
+            Debug.Log("Player is immobilized, timer: " + immobilizationTimer);
+
+            immobilizationTimer -= Time.fixedDeltaTime;
+
+            if (immobilizationTimer <= 0f)
+            {
+                isImmobilized = false;
+                Debug.Log("Player is no longer immobilized");
+                Anim.SetFloat("Walk", 0);
+            }
+            return;
+        }
         Vector2 vec = PlayerAction.ReadValue<Vector2>();
         Anim.SetFloat("Walk", vec.y);
 
@@ -41,7 +57,15 @@ public class CharacterController : MonoBehaviour
         rb.MoveRotation(rb.rotation * Quaternion.AngleAxis(RotateSpeed * Time.fixedDeltaTime * vec.x, Vector3.up));
     }
 
+    public void ImmobilizePlayer(float duration)
+    {
+        Debug.Log("ImmobilizePlayer called with duration: " + duration);
+        isImmobilized = true;
+        immobilizationTimer = duration;
+        Debug.Log("ImmobilizePlayer immobilizationTimer: " + immobilizationTimer + " isImmobilized: " + isImmobilized);
+    }
+
     void OnDisable() {
-      PlayerAction.Disable();
+        PlayerAction.Disable();
     }
 }

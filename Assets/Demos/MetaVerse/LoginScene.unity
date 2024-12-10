@@ -1522,6 +1522,7 @@ MonoBehaviour:
   NextTimeout: -1
   UsernameInput: {fileID: 1216951687}
   ConnexionButton: {fileID: 739186472}
+  ServerStartButton: {fileID: 1612271238}
 --- !u!1 &1612271238
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,45 +4,62 @@ using UnityEngine;
 
 public class CheckServerStatus : MonoBehaviour
 {
-    public UDPService UDP;
     public float NextTimeout = -1;
+    private float serverOfflineTimer = -1;
+    
+    public UDPService UDP;
     public IPEndPoint serverEP;
 
     public GameObject UsernameInput;
     public GameObject ConnexionButton;
+    public GameObject ServerStartButton;
 
     private void Awake()
     {
-        UsernameInput.SetActive(false);
-        ConnexionButton.SetActive(false);
+        SetUIComponentState();
     }
 
     void Start()
     {
         serverEP = new IPEndPoint(IPAddress.Parse(State.ServerIP), State.ServerPORT);
         UDP.InitClient();
-        
+
         UDP.OnMessageReceived += (string message, IPEndPoint sender) =>
         {
             if (message == "PONG")
             {
                 State.ServerIsOnline = true;
-                UsernameInput.SetActive(true);
-                ConnexionButton.SetActive(true);
+
+                serverOfflineTimer = Time.time + 3f;
             }
+            
+            SetUIComponentState();
         };
     }
 
     private void Update()
     {
-        if (State.ServerIsOnline) return;
-        
+        if (Time.time >= serverOfflineTimer)
+        {
+            State.ServerIsOnline = false;
+            SetUIComponentState();
+
+            serverOfflineTimer = Time.time + 2f;
+        }
+
         if (Time.time <= NextTimeout) return;
-        
-        Debug.Log("pinging server");
+
+        Debug.Log("Pinging server");
         
         UDP.SendUDPMessage("PING", serverEP);
-
+        
         NextTimeout = Time.time + 0.5f;
+    }
+
+    private void SetUIComponentState()
+    {
+        UsernameInput.SetActive(State.ServerIsOnline);
+        ConnexionButton.SetActive(State.ServerIsOnline);
+        ServerStartButton.SetActive(!State.ServerIsOnline);
     }
 }

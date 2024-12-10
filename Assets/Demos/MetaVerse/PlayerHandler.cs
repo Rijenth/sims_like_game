@@ -12,6 +12,7 @@ public class PlayerData
     public Vector3 Position;
     public Quaternion Rotation;
     public string Username;
+    public bool IsOnline;
 }
 
 public class PlayerHandler : MonoBehaviour
@@ -105,12 +106,21 @@ public class PlayerHandler : MonoBehaviour
         return container;
     }
 
-    public void SyncPlayerPosition(PlayerData data)
+    public void SyncPlayerData(PlayerData data)
     {
         var username = data.Username;
         var position = data.Position;
         var rotation = data.Rotation;
-        var existingPlayer = Players.Find(player => player.GetComponent<Player>().Username == username);
+        var isOnline = data.IsOnline;
+
+        if (!isOnline)
+        {
+            RemoveDisconnectedPlayer(data);
+
+            return;
+        }
+        
+        var existingPlayer = Players.Find(player => player != null && player.GetComponent<Player>()?.Username == username);
 
         if (!existingPlayer)
         {
@@ -121,7 +131,6 @@ public class PlayerHandler : MonoBehaviour
         }
         else if (username != State.Username)
         {
-
             if (rotation != existingPlayer.transform.rotation)
             {
                 existingPlayer.GetComponent<UDPCharacterController>().SetRotation(rotation);
@@ -130,13 +139,26 @@ public class PlayerHandler : MonoBehaviour
             if (position != existingPlayer.transform.position)
             {
                 existingPlayer.GetComponent<UDPCharacterController>().SetMovement(position);
-            }           
+            }
         }
     }
 
-    public string GeneratePlayerUDPData()
+    public void RemoveDisconnectedPlayer(PlayerData data)
     {
-        var avatar = Players.Find(player => player.GetComponent<Player>().Username == State.Username);
+        var username = data.Username;
+
+        var existingPlayer = Players.Find(player => player != null && player.GetComponent<Player>()?.Username == username);
+        
+        if (!existingPlayer) return;
+
+        Players.Remove(existingPlayer);
+
+        Destroy(existingPlayer);
+    }
+
+    public string GeneratePlayerUDPData(bool? playerIsOnline = true)
+    {
+        var avatar = Players.Find(player => player != null && player.GetComponent<Player>()?.Username == State.Username);
 
         var username = State.Username;
         var position = new Vector3(250, 0, 250);
@@ -159,6 +181,7 @@ public class PlayerHandler : MonoBehaviour
             Username = username,
             Position = position,
             Rotation = rotation,
+            IsOnline = playerIsOnline == true,
         };
 
         return JsonUtility.ToJson(playerData);

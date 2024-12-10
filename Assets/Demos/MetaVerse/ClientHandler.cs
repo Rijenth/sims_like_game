@@ -1,9 +1,5 @@
-using System.Collections.Generic;
 using System.Net;
-using Demos.MetaVerse;
-using Unity.Cinemachine;
 using UnityEngine;
-using Player = Demos.MetaVerse.Player;
 
 public class ClientHandler : PlayerHandler
 {
@@ -26,7 +22,7 @@ public class ClientHandler : PlayerHandler
         {
             var decodedData = JsonUtility.FromJson<PlayerData>(message);
 
-            SyncPlayerPosition(decodedData);
+            SyncPlayerData(decodedData);
         };
     }
 
@@ -40,5 +36,14 @@ public class ClientHandler : PlayerHandler
         UDP.SendUDPMessage(json, ServerEndpoint);
 
         NextTimeout = Time.time + 0.5f;
+    }
+
+    private void OnDestroy()
+    {
+        var json = GeneratePlayerUDPData(false);
+        
+        UDP.SendUDPMessage(json, ServerEndpoint);
+
+        UDP.CloseUDP();
     }
 }

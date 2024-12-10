@@ -23,6 +23,7 @@ public class ConnectionFormHandler : MonoBehaviour
 
     public void StartAsServer()
     {
+        Debug.Log("Starting as server...");
         if (!State.IsServer)
         {
             State.IsServer = true;

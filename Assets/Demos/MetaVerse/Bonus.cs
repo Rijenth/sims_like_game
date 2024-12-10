@@ -4,6 +4,7 @@ public class Bonus : MonoBehaviour
 {
     public LayerMask CollisionLayers;
     public int Points = 1;
+    public ServerHandler ServerHandler;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,6 +29,9 @@ public class Bonus : MonoBehaviour
       if (cScore != null) {
         cScore.AddScore(Points);
       }
+      if (ServerHandler !=null) {
+            ServerHandler.NotifyBonusCollected();
+        }
 
       Destroy(gameObject);
     }

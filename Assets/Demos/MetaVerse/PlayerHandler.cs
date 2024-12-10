@@ -12,6 +12,7 @@ public class PlayerData
     public Vector3 Position;
     public Quaternion Rotation;
     public string Username;
+    public Vector3 BonusPosition;
 }
 
 public class PlayerHandler : MonoBehaviour
@@ -21,6 +22,7 @@ public class PlayerHandler : MonoBehaviour
     public CinemachineCamera cinemachineCamera;
     public GameObject MainAvatarPrefab;
     public GameObject AvatarPrefab;
+    public GameObject BonusPrefab;
 
 
     public float NextTimeout = -1;
@@ -110,6 +112,7 @@ public class PlayerHandler : MonoBehaviour
         var username = data.Username;
         var position = data.Position;
         var rotation = data.Rotation;
+        var bonusposition = data.BonusPosition;
         var existingPlayer = Players.Find(player => player.GetComponent<Player>().Username == username);
 
         if (!existingPlayer)
@@ -137,7 +140,7 @@ public class PlayerHandler : MonoBehaviour
     public string GeneratePlayerUDPData()
     {
         var avatar = Players.Find(player => player.GetComponent<Player>().Username == State.Username);
-
+        var bonusPosition = Vector3.zero;
         var username = State.Username;
         var position = new Vector3(250, 0, 250);
         var rotation = new Quaternion();
@@ -153,12 +156,16 @@ public class PlayerHandler : MonoBehaviour
                 rotation = avatar.transform.rotation;
             }
         }
+        if ( BonusPrefab != null) {
+            bonusPosition = BonusPrefab.transform.position;
+        }
 
         PlayerData playerData = new PlayerData
         {
             Username = username,
             Position = position,
             Rotation = rotation,
+            BonusPosition = bonusPosition
         };
 
         return JsonUtility.ToJson(playerData);

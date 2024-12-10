@@ -8,30 +8,49 @@ using Player = Demos.MetaVerse.Player;
 public class ClientHandler : PlayerHandler
 {
     private IPEndPoint ServerEndpoint;
+    public GameObject BonusPrefab;
 
     void Awake()
     {
         if (State.IsServer) gameObject.SetActive(false);
     }
 
-    void Start()
-    {
+    void Start() {
         Debug.Log("starting as client");
 
         UDP.InitClient();
 
         ServerEndpoint = new IPEndPoint(IPAddress.Parse(State.ServerIP), State.ServerPORT);
-
-        UDP.OnMessageReceived += (string message, IPEndPoint sender) =>
-        {
+        UDP.OnMessageReceived += (string message, IPEndPoint sender) => {
             var decodedData = JsonUtility.FromJson<PlayerData>(message);
-
+            Debug.Log($"data received from server: {message}");
             SyncPlayerPosition(decodedData);
+
+            if (decodedData.BonusPosition == Vector3.zero) {
+                GameObject bonus = GameObject.Find("Bonus");
+                if (bonus != null) {
+                    Destroy(bonus);
+                    Debug.Log("Bonus removed as per server notification.");
+                }
+            }
+            else {
+                GameObject bonus = GameObject.Find("Bonus");
+                if (bonus == null) {
+                    bonus = Instantiate(BonusPrefab, decodedData.BonusPosition, Quaternion.identity);
+                    Debug.Log($"Bonus instantiated at position: {decodedData.BonusPosition}");
+                }
+                else {
+                    bonus.transform.position = decodedData.BonusPosition;
+                    Debug.Log($"Bonus position updated: {decodedData.BonusPosition}");
+                }
+                bonus.SetActive(true);
+            }
         };
     }
 
-    // Update is called once per frame
-    void Update()
+
+        // Update is called once per frame
+        void Update()
     {
         if (Time.time <= NextTimeout) return;
 
@@ -41,4 +60,6 @@ public class ClientHandler : PlayerHandler
 
         NextTimeout = Time.time + 0.5f;
     }
+
+   
 }

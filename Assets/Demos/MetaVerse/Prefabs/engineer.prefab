@@ -139,9 +139,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2163606084426294751, guid: bba52cb8327573a4299109283d05b63e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4117631724862793298}
-    - targetCorrespondingSourceObject: {fileID: 2163606084426294751, guid: bba52cb8327573a4299109283d05b63e, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8781497682776968274}
     - targetCorrespondingSourceObject: {fileID: 2163606084426294751, guid: bba52cb8327573a4299109283d05b63e, type: 3}
       insertIndex: -1
@@ -155,23 +152,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2163606084426294751, guid: bba52cb8327573a4299109283d05b63e, type: 3}
   m_PrefabInstance: {fileID: 6843130341776085900}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4117631724862793298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4679524302450112083}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e60b64da35df495cba7cc1cd0aa45fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: 0
-  WalkSpeed: 3
-  RotateSpeed: 250
-  isImmobilized: 0
-  immobilizationDuration: 2
 --- !u!54 &8781497682776968274
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -236,6 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapPrefab: {fileID: 8861684806784791155, guid: 22b9ec46f0a58f443be35f0c1072d108, type: 3}
   distanceBehind: 2
+  trapCooldown: 5
 --- !u!4 &5881386038313578635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1110506447530992391, guid: bba52cb8327573a4299109283d05b63e, type: 3}

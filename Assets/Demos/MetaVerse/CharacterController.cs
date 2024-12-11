@@ -33,8 +33,6 @@ public class CharacterController : MonoBehaviour
 
     void FixedUpdate()
     {
-      Debug.Log("isImmobilized in FixedUpdate: " + isImmobilized);
-
         if (isImmobilized == true)
         {
             Debug.Log("Player is immobilized, timer: " + immobilizationTimer);

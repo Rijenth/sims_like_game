@@ -1,4 +1,5 @@
 using System.Net;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +8,8 @@ public class TrapSpawner : MonoBehaviour
     public GameObject trapPrefab;
     public float distanceBehind = 2f;
     public float trapCooldown = 5f; 
-private float lastTrapTime = -5f;
+    private float lastTrapTime = -5f;
+    private TextMeshProUGUI trapMessage;
     //private IPEndPoint serverEndpoint;
     private UDPService UDP;
     ClientHandler clientMan;
@@ -15,6 +17,12 @@ private float lastTrapTime = -5f;
 
     void Start()
     {
+        trapMessage = GameObject.Find("TrapMessage")?.GetComponent<TextMeshProUGUI>();
+        if (trapMessage == null)
+        {
+            Debug.LogError("TrapMessage UI not found in the scene. Please ensure it exists and is named correctly.");
+        }
+
         if (State.IsServer) {
             serverMan = GameObject.FindObjectOfType<ServerHandler>();
         } else {
@@ -26,6 +34,18 @@ private float lastTrapTime = -5f;
 
     void Update() 
     {
+        if (Time.time >= lastTrapTime + trapCooldown)
+        {
+            // Affiche le message quand le piège est disponible
+            UpdateTrapMessage("Vous pouvez utiliser un piège ! [A]");
+        }
+        else
+        {
+            // Calcule le temps restant avant que le piège soit disponible
+            float timeRemaining = (lastTrapTime + trapCooldown) - Time.time;
+            UpdateTrapMessage($"Piège disponible dans {timeRemaining:F1} secondes !");
+        }
+
         if (Keyboard.current.qKey.wasPressedThisFrame && 
             Time.time >= lastTrapTime + trapCooldown) 
         {
@@ -66,4 +86,12 @@ private float lastTrapTime = -5f;
         }
         Debug.Log("Trap data sent to server: " + trapJson);
     }
+    private void UpdateTrapMessage(string message = "")
+    {
+        if (trapMessage != null)
+        {
+            trapMessage.text = message;
+        }
+    }
+
 }

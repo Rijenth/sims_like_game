@@ -33,4 +33,9 @@ public class ConnectionFormHandler : MonoBehaviour
 
         StartGame();
     }
+
+    public void SetServerIPAddress(string ipAddress)
+    {
+        State.ServerIP = ipAddress;
+    }
 }

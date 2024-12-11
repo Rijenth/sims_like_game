@@ -6,13 +6,14 @@ public class CheckServerStatus : MonoBehaviour
 {
     public float NextTimeout = -1;
     private float serverOfflineTimer = -1;
-    
+
     public UDPService UDP;
     public IPEndPoint serverEP;
 
     public GameObject UsernameInput;
     public GameObject ConnexionButton;
     public GameObject ServerStartButton;
+    public GameObject ServerIPAddressButton;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class CheckServerStatus : MonoBehaviour
 
                 serverOfflineTimer = Time.time + 3f;
             }
-            
+
             SetUIComponentState();
         };
     }
@@ -48,11 +49,9 @@ public class CheckServerStatus : MonoBehaviour
         }
 
         if (Time.time <= NextTimeout) return;
-
-        Debug.Log("Pinging server");
         
         UDP.SendUDPMessage("PING", serverEP);
-        
+
         NextTimeout = Time.time + 0.5f;
     }
 

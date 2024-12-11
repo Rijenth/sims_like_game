@@ -16,6 +16,7 @@ public class ServerHandler : PlayerHandler
 
     void Start()
     {
+        Debug.Log("server ip address : " + State.ServerIP);
         Debug.Log("starting as server");
         
         ServerEndpoint = new IPEndPoint(IPAddress.Parse(State.ServerIP), State.ServerPORT);

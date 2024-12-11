@@ -37,22 +37,26 @@ public class ServerHandler : PlayerHandler
             {
                 string addr = sender.Address.ToString() + ":" + sender.Port;
 
-                if (!Clients.ContainsKey(addr)) Clients.Add(addr, sender);
-
-                BroadcastUDPMessage(message);
+                if (!Clients.ContainsKey(addr))
+                {
+                    Clients.Add(addr, sender);
+                    Debug.Log("There are " + Clients.Count + " clients present.");
+                }
                 
+                BroadcastUDPMessage(message);
+                    
                 if (message.Contains("TrapPosition") && message.Contains("TrapIdentifier"))
                 {
                     TrapData trapData = JsonUtility.FromJson<TrapData>(message);
                     Debug.Log("debug message " + message);
                     AddTrap(trapData);
+
+                    return;
                 }
-                else
-                {
-                    // Traite les données des joueurs
-                    var decodedData = JsonUtility.FromJson<PlayerData>(message);
-                    SyncPlayerData(decodedData);
-                }
+                
+                // Traite les données des joueurs
+                var decodedData = JsonUtility.FromJson<PlayerData>(message);
+                SyncPlayerData(decodedData);
             };
     }
 
@@ -61,7 +65,7 @@ public class ServerHandler : PlayerHandler
         if (Time.time <= NextTimeout) return;
         
         var json = GeneratePlayerUDPData();
-
+        
         BroadcastUDPMessage(json);
 
         NextTimeout = Time.time + 0.5f;
@@ -82,6 +86,15 @@ public class ServerHandler : PlayerHandler
     {
         foreach (KeyValuePair<string, IPEndPoint> client in Clients)
         {
+            UDP.SendUDPMessage(message, client.Value);
+        }
+    }
+
+    public void BroadcastUDPMessageToAllExcept(string message, string addr)
+    {
+        foreach (KeyValuePair<string, IPEndPoint> client in Clients)
+        {
+            if (client.Key == addr) continue;
             UDP.SendUDPMessage(message, client.Value);
         }
     }

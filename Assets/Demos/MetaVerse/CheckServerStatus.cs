@@ -57,8 +57,6 @@ public class CheckServerStatus : MonoBehaviour
 
     private void SetUIComponentState()
     {
-        UsernameInput.SetActive(State.ServerIsOnline);
-        ConnexionButton.SetActive(State.ServerIsOnline);
         ServerStartButton.SetActive(!State.ServerIsOnline);
     }
 }

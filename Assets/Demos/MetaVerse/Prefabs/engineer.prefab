@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045d5523eee614d44bee23c87f400e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapPrefab: {fileID: 8861684806784791155, guid: 22b9ec46f0a58f443be35f0c1072d108, type: 3}
+  trapPrefab: {fileID: 808744955427178488, guid: bbd9a3300a7f7b441b8ebe18dedcebd0, type: 3}
   distanceBehind: 2
   trapCooldown: 5
 --- !u!4 &5881386038313578635 stripped

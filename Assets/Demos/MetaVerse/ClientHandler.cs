@@ -37,8 +37,31 @@ public class ClientHandler : PlayerHandler
                 // Décoder les données du joueur
                 var decodedData = JsonUtility.FromJson<PlayerData>(message);
                 SyncPlayerData(decodedData);
+                if (decodedData.BonusPosition == Vector3.zero)
+                {
+                    GameObject bonus = GameObject.Find("Bonus");
+                    if (bonus != null)
+                    {
+                        Destroy(bonus);
+                        Debug.Log("Bonus removed as per server notification.");
+                    }
+                }
+                else
+                {
+                    GameObject bonus = GameObject.Find("Bonus");
+                    if (bonus == null)
+                    {
+                        bonus = Instantiate(BonusPrefab, decodedData.BonusPosition, Quaternion.identity);
+                        Debug.Log($"Bonus instantiated at position: {decodedData.BonusPosition}");
+                    }
+                    else
+                    {
+                        bonus.transform.position = decodedData.BonusPosition;
+                        Debug.Log($"Bonus position updated: {decodedData.BonusPosition}");
+                    }
+                    bonus.SetActive(true);
+                }
             }
-
         };
     }
 
@@ -70,7 +93,7 @@ public class ClientHandler : PlayerHandler
     private void OnDestroy()
     {
         var json = GeneratePlayerUDPData(false);
-        
+
         UDP.SendUDPMessage(json, ServerEndpoint);
 
         UDP.CloseUDP();

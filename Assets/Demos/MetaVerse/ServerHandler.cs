@@ -5,7 +5,7 @@ using UnityEngine;
 public class ServerHandler : PlayerHandler
 {
     private IPEndPoint ServerEndpoint;
-    
+
     private Dictionary<string, IPEndPoint> Clients = new Dictionary<string, IPEndPoint>();
     private List<TrapData> ActiveTraps = new List<TrapData>();
 
@@ -18,7 +18,7 @@ public class ServerHandler : PlayerHandler
     {
         Debug.Log("server ip address : " + State.ServerIP);
         Debug.Log("starting as server");
-        
+
         ServerEndpoint = new IPEndPoint(IPAddress.Parse(State.ServerIP), State.ServerPORT);
 
         PlayerData data = new PlayerData()
@@ -42,9 +42,9 @@ public class ServerHandler : PlayerHandler
                     Clients.Add(addr, sender);
                     Debug.Log("There are " + Clients.Count + " clients present.");
                 }
-                
+
                 BroadcastUDPMessage(message);
-                    
+
                 if (message.Contains("TrapPosition") && message.Contains("TrapIdentifier"))
                 {
                     TrapData trapData = JsonUtility.FromJson<TrapData>(message);
@@ -53,19 +53,20 @@ public class ServerHandler : PlayerHandler
 
                     return;
                 }
-                
+
                 // Traite les données des joueurs
                 var decodedData = JsonUtility.FromJson<PlayerData>(message);
                 SyncPlayerData(decodedData);
             };
+        Invoke("InstantiateBonus", 10);
     }
 
     void Update()
     {
         if (Time.time <= NextTimeout) return;
-        
+
         var json = GeneratePlayerUDPData();
-        
+
         BroadcastUDPMessage(json);
 
         NextTimeout = Time.time + 0.5f;
@@ -89,7 +90,41 @@ public class ServerHandler : PlayerHandler
             UDP.SendUDPMessage(message, client.Value);
         }
     }
+    public void InstantiateBonus()
+    {
+        if (BonusPrefab != null)
+        {
+            Debug.Log("Instantiating bonus...");
+            var bonusPosition = new Vector3(248, 0, 249);
+            BonusPrefab = Instantiate(BonusPrefab, bonusPosition, Quaternion.identity);
+            BonusPrefab.name = "Bonus";
 
+
+            PlayerData bonusData = new PlayerData
+            {
+                BonusPosition = bonusPosition
+            };
+
+            string json = JsonUtility.ToJson(bonusData);
+            BroadcastUDPMessage(json);
+            Debug.Log($"Bonus instantiated and data sent: {json}");
+        }
+        else
+        {
+            Debug.LogError("BonusPrefab is not assigned in ServerHandler.");
+        }
+    }
+
+    public void NotifyBonusCollected()
+    {
+        PlayerData bonusData = new PlayerData
+        {
+            BonusPosition = Vector3.zero
+        };
+        string json = JsonUtility.ToJson(bonusData);
+        BroadcastMessage(json);
+        Debug.Log($"Bonus collected and data sent: {json}");
+    }
     public void BroadcastUDPMessageToAllExcept(string message, string addr)
     {
         foreach (KeyValuePair<string, IPEndPoint> client in Clients)
